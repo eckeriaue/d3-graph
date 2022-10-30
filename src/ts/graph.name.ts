@@ -29,15 +29,14 @@ namespace Graph {
           left: 0,
         }
         
-        // this.init()
     }
 
-    init() {
-      this.render()
+    render() {
+      this.init()
     }
     
     
-    private render() {
+    private init() {
 
       this.renderYLabel()
       this.renderXLabel()

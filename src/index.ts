@@ -2,8 +2,8 @@ import Chart from "./ts/chart.name";
 
 const spline = new Chart.Spline('#graph', {
   
-  xLabel: ['test', 'test2', 'test3', 'test4'],
   yLabel: ['test', 'test2', 'test3', 'test4'],
+  xLabel: ['test', 'test2', 'test3', 'test4', 'test5','test6',],
   grid: {
     size: 56,
   },

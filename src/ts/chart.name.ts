@@ -21,16 +21,20 @@ namespace Chart {
   }
 
   export class Spline {
-    path: d3.Path = d3.path()
+    private path: d3.Path = d3.path()
     private x: d3.ScaleTime<number, number, never> = d3.scaleTime()
+    
+    public yLabel: string[]
+    public xLabel: string[]
+    public grid: {size: number}
+    public asymptotes: Array<Asymptotes>
+    public target: d3.Selection<d3.BaseType, unknown, HTMLElement, any>
+    public scene: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
    
-    yLabel: string[]
-    xLabel: string[]
-    grid: {size: number}
-    asymptotes: Array<Asymptotes>
-    target: d3.Selection<d3.BaseType, unknown, HTMLElement, any>
-    scene: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
-   
+    private indent = {
+      left: 10
+    }
+
     constructor(target: string,
       {
         yLabel,
@@ -49,20 +53,29 @@ namespace Chart {
     
     }
     public render() {
+
+
+      this.scene
+      .attr('height', this.yLabel.length * this.grid.size - (this.grid.size - 1))
+      .attr('width',
+        (this.xLabel.length * this.grid.size) +
+        this.grid.size + this.indent.left + 1
+      )
       if (this.xLabel && this.yLabel) this.drawGrid()
       if (this.yLabel) {
-        this.scene
-        .attr('height', this.yLabel.length * this.grid.size - 55)
         this.renderYLabel()
       }
-    
+      if (this.xLabel) {
+        this.renderXLabel()
+      }
+
 
     }
     private renderYLabel() {
-
+        
         this.scene
           .append('g')
-          .attr('transform', `translate(${this.grid.size}, 10)`)
+          .attr('transform', `translate(${this.grid.size}, ${this.indent.left})`)
           .selectAll('text')
           .data(this.yLabel)
           .enter()
@@ -73,6 +86,17 @@ namespace Chart {
             return i * (56 - i)
           })
           .text(d => {return d})
+
+    }
+
+    private renderXLabel() {
+      this.scene
+        .append('g')
+        .selectAll('text')
+        .data(this.xLabel)
+        .enter()
+        .append('text')
+        .text(d => {return d})
 
     }
 

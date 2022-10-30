@@ -18,27 +18,26 @@ namespace Chart {
     grid?: {
       size?: number
     }
-    log?: boolean
   }
 
   export class Spline {
+    path: d3.Path = d3.path()
+    private x: d3.ScaleTime<number, number, never> = d3.scaleTime()
+   
     yLabel: string[]
     xLabel: string[]
-    log: boolean = false
     grid: {size: number}
-    path: d3.Path = d3.path()
     asymptotes: Array<Asymptotes>
     target: d3.Selection<d3.BaseType, unknown, HTMLElement, any>
     scene: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
+   
     constructor(target: string,
       {
         yLabel,
         xLabel,
         asymptotes,
         grid,
-        log,
       }: SplineProperty) {
-      this.log = log
       this.target = d3.select(target)
       this.scene = this.target.append('svg').attr('id', 'scene')
       this.yLabel = yLabel
@@ -54,12 +53,12 @@ namespace Chart {
       if (this.yLabel) {
         this.scene
         .attr('height', this.yLabel.length * this.grid.size - 55)
-        this.renderYLabel(this.target)
+        this.renderYLabel()
       }
     
 
     }
-    private renderYLabel(target: d3.Selection<d3.BaseType, unknown, HTMLElement, any>) {
+    private renderYLabel() {
 
         this.scene
           .append('g')
@@ -93,7 +92,7 @@ namespace Chart {
         .attr('d', 'M 56 0 L 0 0 0 56')
         .attr('fill', 'none')
         .attr('stroke', 'skyblue')
-        .attr('stroke-width', '1')
+        .attr('stroke-width', '2')
 
       scopedGroup
         .append('rect')

@@ -8,12 +8,14 @@ namespace Graph {
     xLabelWrapp: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>
     gridGroup: d3.Selection<SVGGElement, unknown, HTMLElement, any>
     private path: d3.Path = d3.path()
+    private x: d3.ScaleLinear<number, number, never>    
     private indent: {top: number,  right: number, bottom: number, left: number,  }
     constructor(wrapp: string,
       
       public config: {
         yLabel: string[]
         xLabel: string[]
+        asymptotes: object[]
       }
       
       ) {
@@ -22,6 +24,8 @@ namespace Graph {
         this.scene = this.wrapp.append('svg').attr('id', 'scene')
         this.gridGroup = this.scene.append('g').attr('id', 'grid')
 
+
+
         this.indent = {
           top: 0,
           right: 0,
@@ -29,6 +33,7 @@ namespace Graph {
           left: 0,
         }
         
+
     }
 
     render() {
